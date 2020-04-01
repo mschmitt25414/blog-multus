@@ -1,0 +1,112 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: example
+  namespace: default
+  selfLink: /api/v1/namespaces/default/pods/example
+  uid: f01f196b-4326-43af-80ea-ead6f27ce6b7
+  resourceVersion: '49211'
+  creationTimestamp: '2020-04-01T15:19:09Z'
+  labels:
+    app: hello-openshift
+  annotations:
+    k8s.v1.cni.cncf.io/networks: multus1
+    k8s.v1.cni.cncf.io/networks-status: |-
+      [{
+          "name": "openshift-sdn",
+          "interface": "eth0",
+          "ips": [
+              "10.129.2.10"
+          ],
+          "dns": {},
+          "default-route": [
+              "10.129.2.1"
+          ]
+      },{
+          "name": "multus1",
+          "interface": "net1",
+          "ips": [
+              "191.168.1.1"
+          ],
+          "mac": "ca:76:73:38:4a:fc",
+          "dns": {}
+      }]
+spec:
+  restartPolicy: Always
+  serviceAccountName: default
+  imagePullSecrets:
+    - name: default-dockercfg-wdfsz
+  priority: 0
+  schedulerName: default-scheduler
+  enableServiceLinks: true
+  terminationGracePeriodSeconds: 30
+  nodeName: ip-10-0-157-221.ec2.internal
+  securityContext: {}
+  containers:
+    - name: hello-openshift
+      image: openshift/hello-openshift
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+      resources: {}
+      volumeMounts:
+        - name: default-token-4h4f9
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      imagePullPolicy: Always
+  serviceAccount: default
+  volumes:
+    - name: default-token-4h4f9
+      secret:
+        secretName: default-token-4h4f9
+        defaultMode: 420
+  dnsPolicy: ClusterFirst
+  tolerations:
+    - key: node.kubernetes.io/not-ready
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+    - key: node.kubernetes.io/unreachable
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+status:
+  phase: Running
+  conditions:
+    - type: Initialized
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2020-04-01T15:19:09Z'
+    - type: Ready
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2020-04-01T15:19:19Z'
+    - type: ContainersReady
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2020-04-01T15:19:19Z'
+    - type: PodScheduled
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2020-04-01T15:19:09Z'
+  hostIP: 10.0.157.221
+  podIP: 10.129.2.10
+  podIPs:
+    - ip: 10.129.2.10
+  startTime: '2020-04-01T15:19:09Z'
+  containerStatuses:
+    - restartCount: 0
+      started: true
+      ready: true
+      name: hello-openshift
+      state:
+        running:
+          startedAt: '2020-04-01T15:19:18Z'
+      imageID: >-
+        docker.io/openshift/hello-openshift@sha256:aaea76ff622d2f8bcb32e538e7b3cd0ef6d291953f3e7c9f556c1ba5baf47e2e
+      image: 'docker.io/openshift/hello-openshift:latest'
+      lastState: {}
+      containerID: 'cri-o://91a3366135154e939a03262e7b21dbc529d11d7731da0027295e983c67c2d757'
+  qosClass: BestEffort
