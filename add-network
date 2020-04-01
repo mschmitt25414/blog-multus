@@ -1,0 +1,29 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: operator.openshift.io/v1
+kind: Network
+metadata:
+  creationTimestamp: 2020-04-01T13:03:47Z
+  generation: 1
+  name: cluster
+  resourceVersion: "1404"
+  selfLink: /apis/operator.openshift.io/v1/networks/cluster
+  uid: 8ab27e36-919c-4b57-9ca3-3462f0ae931a
+spec:
+ additionalNetworks:
+ -name: multus1
+     rawCNIConfig:'{"cniVersion":"0.3.1","type":"bridge","master":eth1","ipam":
+     {"type":"static","addresses":[{"address":"191.168.1.1/24"}]}}'
+     type:Raw
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  defaultNetwork:
+    type: OpenShiftSDN
+  logLevel: ""
+  serviceNetwork:
+  - 172.30.0.0/16
+status: {}
+
